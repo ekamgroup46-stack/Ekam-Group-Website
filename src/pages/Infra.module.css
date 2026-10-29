@@ -1,0 +1,84 @@
+/* ---------- hero art: a building going up ---------- */
+.art { position: relative; aspect-ratio: 1 / 1; }
+.sun { position: absolute; right: 10%; top: 6%; width: 26%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgba(212, 255, 90, 0.7), transparent); }
+
+.tower, .side { position: absolute; bottom: 12%; display: flex; flex-direction: column; gap: 6px; }
+.tower { left: 26%; width: 36%; }
+.side { left: 64%; width: 22%; }
+.floor {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 10px;
+  height: 52px; border-radius: 8px; transform-origin: bottom;
+  background: linear-gradient(180deg, #1a6e44, #0f4a2d); border: 1px solid rgba(61, 220, 132, 0.4);
+}
+.side .floor { grid-template-columns: repeat(2, 1fr); background: linear-gradient(180deg, #1d2a5a, #121a3e); border-color: var(--line-2); }
+/* windows: an opacity-only glow layer, so the light-up loop never repaints */
+.floor i { position: relative; border-radius: 3px; background: rgba(212, 255, 90, 0.15); }
+.floor i::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: var(--lime); box-shadow: 0 0 12px var(--lime);
+  opacity: 0; animation: lit 6s infinite; animation-delay: calc(var(--w) * 0.37s);
+}
+@keyframes lit { 0%, 60%, 100% { opacity: 0; } 70%, 90% { opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) {
+  .floor { animation: rise 0.5s var(--ease) backwards; animation-delay: calc(var(--f) * 160ms + 400ms); }
+}
+@keyframes rise { from { opacity: 0; transform: scaleY(0); } }
+
+.ground { position: absolute; left: 4%; right: 4%; bottom: 10%; height: 2px; background: linear-gradient(90deg, transparent, var(--line-2), transparent); }
+
+.crane { position: absolute; left: 14%; top: 8%; width: 60%; height: 80%; }
+.mast { position: absolute; left: 0; top: 0; bottom: 2%; width: 8px; border-radius: 2px; background: repeating-linear-gradient(0deg, var(--gold) 0 10px, #b88a12 10px 12px); }
+.jib {
+  position: absolute; left: -10%; top: 0; width: 120%; height: 8px; border-radius: 2px;
+  background: var(--gold); transform-origin: 8% 50%;
+  animation: jib 6s ease-in-out infinite;
+}
+.jib i { position: absolute; right: 20%; top: 8px; width: 2px; height: 60px; background: var(--muted); transform-origin: top; animation: hook 4s ease-in-out infinite; }
+.jib i::after { content: ""; position: absolute; left: -10px; bottom: -14px; width: 22px; height: 14px; border-radius: 3px; background: var(--orange); }
+@keyframes jib { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes hook { 50% { transform: scaleY(1.5); } }
+
+.tag {
+  position: absolute; left: 0; bottom: 18%;
+  display: grid; gap: 6px; min-width: 176px; padding: 14px 18px;
+  border-radius: 16px; background: #fffdf8; color: var(--ink);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.7);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tag { animation: tagIn 0.7s var(--ease) 1.6s backwards; }
+}
+@keyframes tagIn { from { opacity: 0; transform: translateY(20px); } }
+.tag b { font: 700 16px/1.2 var(--f-display); }
+.tag span { font-size: 13px; font-weight: 700; color: var(--green-d); }
+.tag .tagBar { height: 6px; border-radius: 999px; background: #e7ecef; overflow: hidden; }
+.tagBar i { display: block; width: 68%; height: 100%; border-radius: inherit; background: var(--green); }
+
+/* ---------- kinds of work (uneven on purpose) ---------- */
+.kinds { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 16px; align-items: end; margin-bottom: 16px; }
+.kind { position: relative; }
+.kind :global(.media) { aspect-ratio: 4 / 3; border-radius: var(--r-lg); box-shadow: 0 30px 60px -36px rgba(11, 18, 48, 0.5); }
+.kind:nth-child(2) :global(.media) { aspect-ratio: 3 / 4; }
+.kind:nth-child(3) :global(.media) { aspect-ratio: 1 / 1; }
+.kindTag {
+  position: absolute; left: 14px; bottom: 14px;
+  padding: 8px 14px; border-radius: 999px;
+  background: rgba(6, 9, 20, 0.78); color: #f2f4ff; font-size: 13px; font-weight: 800;
+}
+
+/* ---------- project form ---------- */
+.project { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 60px; align-items: start; }
+.projectCopy { display: grid; gap: 24px; justify-items: start; position: sticky; top: 110px; }
+.planPhoto { width: 100%; aspect-ratio: 16 / 10; margin-top: 8px; border-radius: var(--r-lg); border: 1px solid var(--line); }
+
+@media (max-width: 960px) {
+  .project { grid-template-columns: 1fr; gap: 44px; }
+  .projectCopy { position: static; }
+}
+@media (max-width: 760px) {
+  .kinds { grid-template-columns: 1fr 1fr; }
+  .kind:first-child { grid-column: 1 / -1; }
+  .kind:nth-child(2) :global(.media), .kind:nth-child(3) :global(.media) { aspect-ratio: 1 / 1; }
+}
+@media (max-width: 560px) {
+  .floor { height: 38px; padding: 7px; gap: 6px; }
+}

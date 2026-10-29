@@ -1,0 +1,51 @@
+.wrap { position: relative; padding-top: 26px; }
+
+.chips { position: absolute; z-index: 2; left: -18px; top: 0; display: flex; gap: 8px; rotate: -6deg; }
+.chips span {
+  padding: 10px 16px; border-radius: 999px;
+  font-size: 13px; font-weight: 800;
+  background: var(--bg-3); color: var(--text); border: 1px solid var(--line-2);
+  box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.6);
+  animation: bob 3.2s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.4s);
+}
+.chips span:nth-child(2) { background: var(--lime); color: var(--ink); border-color: transparent; }
+@keyframes bob { 50% { transform: translateY(-8px); } }
+
+/* shadow lives on its own wrapper so the bobbing chips never re-run the filter */
+.shadow { rotate: 3deg; filter: drop-shadow(0 40px 50px rgba(255, 138, 61, 0.28)) drop-shadow(0 22px 26px rgba(0, 0, 0, 0.55)); }
+
+.receipt {
+  --z: 10px;
+  padding: 28px 26px calc(24px + var(--z));
+  border-radius: 26px 26px 0 0;
+  background: #fffdf8; color: var(--ink);
+  /* torn zig-zag bottom edge */
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--z) * 2) 100%;
+          mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--z) * 2) 100%;
+}
+.top { display: flex; align-items: center; gap: 14px; padding-bottom: 20px; border-bottom: 1.5px dashed rgba(6, 9, 20, 0.15); }
+.top b { display: block; font: 700 17px/1.2 var(--f-display); letter-spacing: -0.03em; }
+.top small { font-size: 13px; color: #6a7190; }
+.ok { flex: none; width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center; background: var(--green); color: var(--ink); }
+.logo { margin-left: auto; width: 34px; height: auto; }
+
+.rows { display: grid; gap: 12px; padding: 20px 0; }
+.row { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
+.row span { color: #6a7190; font-weight: 600; }
+
+.total { display: grid; gap: 4px; padding: 18px 20px; border-radius: 18px; background: var(--orange); }
+.total span { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+.total b { font: 800 clamp(34px, 4.4vw, 52px)/1 var(--f-display); letter-spacing: -0.05em; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .row { animation: rowIn 0.6s var(--ease) backwards; animation-delay: calc(var(--i) * 110ms + 650ms); }
+  .total b { animation: totalIn 0.7s var(--ease) 1.2s backwards; }
+}
+@keyframes rowIn { from { opacity: 0; transform: translateX(-14px); } }
+@keyframes totalIn { from { opacity: 0; transform: scale(0.85); } }
+
+@media (max-width: 560px) {
+  .chips { left: -4px; }
+  .shadow { rotate: 1.5deg; }
+}

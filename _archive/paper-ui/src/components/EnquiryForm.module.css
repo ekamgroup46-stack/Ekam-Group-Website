@@ -1,0 +1,18 @@
+.form {
+  display: grid; gap: 22px;
+  padding: clamp(22px, 3vw, 36px);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
+  border-radius: 14px;
+}
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.title { font-size: 22px; letter-spacing: -0.03em; }
+.req { font: 400 12px var(--f-mono); color: var(--ink-3); }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 14px; }
+.full { grid-column: 1 / -1; }
+.hint { font: 400 12px/1.45 var(--f-mono); color: var(--ink-2); text-align: center; }
+
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,106 @@
+/* ticket: two halves with punched notches where they meet */
+.ticket { --notch: 14px; display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+
+.form {
+  display: grid; gap: 24px; align-content: start;
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--card);
+  border-radius: 16px 0 0 16px;
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at 100% 0, #0000 97%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at 100% 100%, #0000 97%, #000) bottom / 100% 51% no-repeat;
+          mask:
+    radial-gradient(circle var(--notch) at 100% 0, #0000 97%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at 100% 100%, #0000 97%, #000) bottom / 100% 51% no-repeat;
+}
+.stub {
+  position: relative;
+  display: flex; flex-direction: column; gap: 14px;
+  padding: clamp(24px, 3vw, 40px);
+  background: var(--orange); color: var(--ink);
+  border-radius: 0 16px 16px 0;
+  border-left: 2px dashed rgba(12, 26, 59, 0.35);
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at 0 100%, #0000 97%, #000) bottom / 100% 51% no-repeat;
+          mask:
+    radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at 0 100%, #0000 97%, #000) bottom / 100% 51% no-repeat;
+}
+
+.group { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; min-width: 0; }
+.glabel { font: 500 12px/1.2 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 0 16px; border-radius: 999px;
+  border: 1.5px solid var(--line-2); background: transparent;
+  font-size: 14.5px; font-weight: 600;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.seg button:hover { border-color: var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+.amount { display: flex; align-items: baseline; gap: 6px; border-bottom: 1.5px solid var(--ink); }
+.amount span { font: 700 clamp(28px, 3.2vw, 42px)/1 var(--f-display); color: var(--ink-3); }
+.amount input {
+  flex: 1; width: 100%; min-width: 0; padding: 2px 0 10px; border: 0; outline: none; background: none;
+  font: 800 clamp(44px, 5.4vw, 76px)/1 var(--f-display); letter-spacing: -0.05em; color: var(--ink);
+}
+.amount:focus-within { border-bottom-color: var(--orange-ink); }
+
+.range { -webkit-appearance: none; appearance: none; width: 100%; height: 30px; margin: 4px 0 0; background: transparent; cursor: pointer; }
+.range::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: linear-gradient(90deg, var(--ink) var(--p), var(--line-2) var(--p)); }
+.range::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; margin-top: -10px; border-radius: 50%; background: var(--orange); border: 2.5px solid var(--ink); }
+.range::-moz-range-track { height: 6px; border-radius: 999px; background: var(--line-2); }
+.range::-moz-range-progress { height: 6px; border-radius: 999px; background: var(--ink); }
+.range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--orange); border: 2.5px solid var(--ink); }
+
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.presets button {
+  min-height: 36px; padding: 0 12px; border-radius: 999px;
+  border: 1px solid var(--line-2); background: transparent;
+  font: 500 13px var(--f-mono); color: var(--ink-2);
+  transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+}
+.presets button:hover { border-color: var(--ink); color: var(--ink); }
+.presets button[aria-pressed="true"] { background: var(--paper-2); border-color: var(--ink); color: var(--ink); }
+
+.stubHead { font: 500 12px/1 var(--f-mono); letter-spacing: 0.1em; text-transform: uppercase; padding-bottom: 14px; border-bottom: 1.5px dashed rgba(12, 26, 59, 0.35); }
+.line { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
+.line span { opacity: 0.8; }
+.line b { font: 500 16px/1.4 var(--f-mono); }
+.total { display: grid; gap: 6px; margin: 6px 0 auto; padding: 16px 0 20px; border-top: 1.5px dashed rgba(12, 26, 59, 0.35); }
+.total span { font: 500 12px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.total b { font: 800 clamp(44px, 5vw, 68px)/1 var(--f-display); letter-spacing: -0.05em; overflow-wrap: anywhere; }
+.note { font-size: 12.5px; line-height: 1.45; opacity: 0.78; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tick { animation: tick 0.25s var(--ease); }
+}
+@keyframes tick { from { opacity: 0.35; transform: translateY(3px); } }
+.tick { display: inline-block; }
+.total .tick { display: block; }
+
+@media (max-width: 860px) {
+  .ticket { grid-template-columns: 1fr; }
+  .form {
+    border-radius: 16px 16px 0 0;
+    -webkit-mask:
+      radial-gradient(circle var(--notch) at 0 100%, #0000 97%, #000) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--notch) at 100% 100%, #0000 97%, #000) right / 51% 100% no-repeat;
+            mask:
+      radial-gradient(circle var(--notch) at 0 100%, #0000 97%, #000) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--notch) at 100% 100%, #0000 97%, #000) right / 51% 100% no-repeat;
+  }
+  .stub {
+    border-radius: 0 0 16px 16px; border-left: 0; border-top: 2px dashed rgba(12, 26, 59, 0.35);
+    -webkit-mask:
+      radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--notch) at 100% 0, #0000 97%, #000) right / 51% 100% no-repeat;
+            mask:
+      radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--notch) at 100% 0, #0000 97%, #000) right / 51% 100% no-repeat;
+  }
+}

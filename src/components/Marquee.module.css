@@ -1,0 +1,19 @@
+/* the clip gives the tilted band room to rotate without widening the page */
+.clip { position: relative; z-index: 2; overflow: hidden; padding-block: 40px; margin-block: -40px; pointer-events: none; }
+.band {
+  pointer-events: auto;
+  margin-inline: -4vw;
+  transform: rotate(var(--tilt));
+  background: var(--lime); color: var(--ink);
+  border-block: 1px solid rgba(0, 0, 0, 0.1);
+}
+.light { background: #f2f4ff; }
+.track { display: flex; width: max-content; padding: 20px 0; animation: run var(--speed) linear infinite; will-change: transform; }
+.band:hover .track { animation-play-state: paused; }
+.item {
+  display: inline-flex; align-items: center; gap: 28px; padding-right: 28px;
+  font: 700 clamp(20px, 2.6vw, 32px)/1 var(--f-display); letter-spacing: -0.03em;
+  white-space: nowrap; text-transform: uppercase;
+}
+.star { fill: currentColor; opacity: 0.85; }
+@keyframes run { to { transform: translate3d(-50%, 0, 0); } }

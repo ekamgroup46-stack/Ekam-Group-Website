@@ -1,0 +1,15 @@
+.dock { display: none; }
+
+@media (max-width: 640px) {
+  .dock {
+    position: fixed; z-index: 90; left: 12px; right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    display: grid; grid-template-columns: 1fr 1.5fr; gap: 8px; padding: 7px;
+    /* solid, not blurred — a blurred layer over scrolling content costs frames on phones */
+    background: rgba(10, 15, 34, 0.96); border: 1px solid var(--line-2); border-radius: 999px;
+    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7);
+  }
+  .dock a { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; border-radius: 999px; font-weight: 800; font-size: 15px; }
+  .call { color: var(--text); background: rgba(255, 255, 255, 0.06); }
+  .wa { background: var(--lime); color: var(--ink); }
+}

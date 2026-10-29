@@ -1,0 +1,135 @@
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  pointer-events: none; /* only the bar and the pill take clicks */
+  transition: transform 0.4s var(--ease);
+}
+.hasBar.scrolled { transform: translateY(-40px); } /* bar slides away, pill stays */
+
+/* ---------- announcement bar ---------- */
+.bar {
+  pointer-events: auto;
+  position: relative; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 52px;
+  background: var(--grad); color: var(--ink);
+  font-size: 13.5px; font-weight: 700;
+}
+.barText { display: flex; align-items: center; gap: 8px; min-width: 0; white-space: nowrap; }
+.barText > span { overflow: hidden; text-overflow: ellipsis; }
+.barShort { display: none; }
+.barLink { flex: none; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.barLink:hover { text-decoration-thickness: 2.5px; }
+.barClose {
+  position: absolute; right: 10px; top: 50%; translate: 0 -50%;
+  width: 28px; height: 28px; display: grid; place-items: center;
+  border: 0; border-radius: 50%; background: rgba(6, 9, 20, 0.12); color: var(--ink);
+  transition: background-color 0.2s;
+}
+.barClose:hover { background: rgba(6, 9, 20, 0.25); }
+
+/* ---------- floating pill ---------- */
+.navWrap { padding: 10px 16px 0; }
+.inner {
+  pointer-events: auto;
+  position: relative; max-width: 1200px; height: 64px; margin-inline: auto;
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 8px 0 10px; border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background-color 0.4s, border-color 0.4s, box-shadow 0.4s;
+}
+.scrolled .inner { background: rgba(10, 15, 34, 0.92); border-color: var(--line); box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.65); }
+@media (min-width: 1081px) {
+  /* one small blurred element on desktop only — phones get the solid version */
+  .scrolled .inner { background: rgba(10, 15, 34, 0.72); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); }
+}
+.menuOpen .inner { background: transparent; border-color: transparent; box-shadow: none; }
+
+.brand { display: flex; align-items: center; gap: 10px; flex: none; }
+.logo {
+  width: 42px; height: 42px; border-radius: 13px; flex: none;
+  display: grid; place-items: center; background: #fff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 8px 24px -8px rgba(77, 168, 255, 0.55);
+}
+.logo img { width: 31px; height: auto; }
+.word { font: 800 19px/1 var(--f-display); letter-spacing: -0.04em; }
+.word b { color: var(--orange); }
+
+.links { display: flex; align-items: center; gap: 2px; margin-left: auto; }
+.link {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 14px; border-radius: 999px;
+  font: 600 14.5px/1 var(--f-body); color: var(--muted);
+  transition: color 0.2s, background-color 0.2s;
+}
+.link:hover { color: var(--text); background: rgba(255, 255, 255, 0.06); }
+.active { color: var(--text); background: rgba(255, 255, 255, 0.08); box-shadow: inset 0 0 0 1px var(--line); }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c); box-shadow: 0 0 10px var(--c); }
+
+.cta { flex: none; min-height: 46px; padding: 0 20px; font-size: 14px; }
+
+.burger {
+  display: none; margin-left: auto; flex: none;
+  width: 48px; height: 48px; border: 0; border-radius: 50%;
+  background: #f2f4ff;
+  flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+}
+.burger span { width: 18px; height: 2px; border-radius: 2px; background: var(--ink); transition: transform 0.35s var(--ease); }
+.burgerOpen span:first-child { transform: translateY(4px) rotate(45deg); }
+.burgerOpen span:last-child { transform: translateY(-4px) rotate(-45deg); }
+
+/* reading-progress line along the pill (pure CSS where supported) */
+.progress {
+  position: absolute; left: 26px; right: 26px; bottom: -1px; height: 2px; border-radius: 2px;
+  background: var(--grad); transform-origin: left; transform: scaleX(0);
+  opacity: 0; transition: opacity 0.3s; pointer-events: none;
+}
+.scrolled .progress { opacity: 1; }
+.menuOpen .progress { opacity: 0; }
+@supports (animation-timeline: scroll()) {
+  .progress { animation: progress linear both; animation-timeline: scroll(root block); }
+}
+@keyframes progress { to { transform: scaleX(1); } }
+
+/* ---------- mobile sheet ---------- */
+.sheet {
+  --oy: calc(var(--bar-h) + 42px);
+  position: fixed; inset: 0; z-index: 99;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 28px;
+  padding: calc(var(--bar-h) + 100px) 24px calc(28px + env(safe-area-inset-bottom, 0px));
+  background: var(--bg-2); overflow-y: auto;
+  clip-path: circle(0% at calc(100% - 46px) var(--oy));
+  visibility: hidden;
+  transition: clip-path 0.5s var(--ease), visibility 0s linear 0.5s;
+}
+.sheetScrolled { --oy: 42px; }
+.open { clip-path: circle(150% at calc(100% - 46px) var(--oy)); visibility: visible; transition: clip-path 0.6s var(--ease); }
+
+.sheetNav { display: grid; }
+.sheetLink {
+  display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; align-items: center; gap: 12px;
+  padding: 14px 0; border-bottom: 1px solid var(--line);
+  opacity: 0; transform: translateY(22px);
+  transition: opacity 0.4s, transform 0.5s var(--ease);
+}
+.open .sheetLink { opacity: 1; transform: none; transition-delay: calc(var(--i) * 45ms + 140ms); }
+.sheetNum { font: 700 12px var(--f-display); color: var(--c); }
+.sheetLink b { display: block; font: 700 clamp(24px, 7vw, 34px)/1.1 var(--f-display); letter-spacing: -0.04em; }
+.sheetLink small { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+.sheetLink svg { color: var(--muted); transition: transform 0.3s var(--ease), color 0.2s; }
+.sheetLink:hover svg, .sheetActive svg { color: var(--c); transform: rotate(45deg); }
+.sheetActive b { color: var(--c); }
+.sheetCtas { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; }
+
+@media (max-width: 1080px) {
+  .links, .cta { display: none; }
+  .burger { display: flex; }
+}
+@media (min-width: 1081px) {
+  .sheet { display: none; }
+}
+@media (max-width: 640px) {
+  .navWrap { padding: 8px 12px 0; }
+  .barLong { display: none; }
+  .barShort { display: inline; }
+  .bar { justify-content: flex-start; padding: 0 46px 0 14px; font-size: 13px; }
+}

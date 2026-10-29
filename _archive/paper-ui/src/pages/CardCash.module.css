@@ -1,0 +1,27 @@
+.banks { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(40px, 6vw, 96px); align-items: center; }
+.banksHead { display: grid; gap: 22px; justify-items: start; }
+
+.networks { display: flex; flex-wrap: wrap; gap: 8px; }
+.networks span {
+  padding: 10px 16px; border-radius: 8px;
+  font: 700 16px/1 var(--f-display); letter-spacing: -0.01em;
+  border: 1.5px solid var(--ink);
+}
+.networks span:nth-child(1) { background: var(--orange); border-color: var(--orange); }
+.networks span:nth-child(2) { background: var(--ink); color: var(--paper); }
+.networks span:nth-child(3) { background: var(--blue); border-color: var(--blue); color: var(--paper); }
+
+/* banks set as one big run of type */
+.bankCloud { position: relative; font: 800 clamp(32px, 4.1vw, 58px)/1.1 var(--f-display); letter-spacing: -0.045em; }
+.bank { white-space: nowrap; transition: color 0.2s; }
+.bank:hover { color: var(--accent-ink); }
+.bank:last-of-type { color: var(--ink-3); }
+.slash { margin-left: 0.16em; font: italic 400 1em var(--f-serif); color: var(--ink-3); }
+.stamp { position: absolute; right: 4%; bottom: -12px; width: 112px; }
+
+@media (max-width: 960px) {
+  .banks { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .stamp { display: none; }
+}

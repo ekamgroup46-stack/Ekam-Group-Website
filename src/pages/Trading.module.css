@@ -1,0 +1,80 @@
+/* ---------- hero art: warehouse photo + supply-chain nodes ---------- */
+.art { position: relative; aspect-ratio: 1 / 1; }
+.frame {
+  position: absolute; inset: 0 0 12% 24%;
+  overflow: hidden; border-radius: var(--r-lg);
+  border: 1px solid var(--line-2);
+  box-shadow: 0 50px 100px -40px rgba(255, 200, 69, 0.45);
+}
+.frame :global(.media) { position: absolute; inset: 0; }
+.frameShade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(6, 9, 20, 0.7), rgba(6, 9, 20, 0.05) 70%); }
+
+.nodes { position: absolute; z-index: 1; left: 0; top: 16%; width: 76%; display: grid; gap: 14px; padding-left: 30px; }
+.rail { position: absolute; left: 8px; top: 26px; bottom: 26px; width: 2px; border-radius: 2px; background: var(--line-2); }
+.rail i {
+  position: absolute; inset: 0 -5px;
+  background: radial-gradient(circle 6px at 50% 6px, var(--gold) 98%, transparent) top / 12px 12px no-repeat;
+  filter: drop-shadow(0 0 8px var(--gold));
+  animation: rail 2.4s ease-in-out infinite alternate;
+}
+@keyframes rail { to { transform: translateY(calc(100% - 12px)); } }
+
+.node {
+  position: relative; display: flex; align-items: center; gap: 14px;
+  padding: 16px 18px; border-radius: 20px;
+  background: linear-gradient(160deg, rgba(20, 28, 64, 0.94), rgba(10, 15, 34, 0.94));
+  border: 1px solid var(--line-2);
+  box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.8);
+  margin-left: calc(var(--i) * 7%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .node { animation: nodeIn 0.8s var(--ease) backwards; animation-delay: calc(var(--i) * 180ms + 500ms); }
+}
+@keyframes nodeIn { from { opacity: 0; transform: translateX(40px); } }
+.node b { display: block; font: 700 18px/1.2 var(--f-display); letter-spacing: -0.03em; }
+.node small { font-size: 13.5px; color: var(--muted); }
+.nodeIc { flex: none; width: 48px; height: 48px; border-radius: 15px; display: grid; place-items: center; background: var(--gold); color: var(--ink); box-shadow: 0 8px 24px -8px var(--gold); }
+.nodeNum { margin-left: auto; font: 700 13px/1 var(--f-display); color: var(--muted); }
+
+.crate {
+  position: absolute; z-index: 2; right: 4%; bottom: 0; width: 26%; aspect-ratio: 1;
+  display: grid; place-items: center; border-radius: 22px;
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(6, 9, 20, 0.2) 46% 54%, transparent 54%),
+    linear-gradient(135deg, #ffd66b, #e0a21f);
+  box-shadow: inset 0 0 0 6px rgba(6, 9, 20, 0.12), 0 30px 60px -20px rgba(255, 200, 69, 0.5);
+  animation: crate 5s ease-in-out infinite;
+}
+.crate span { padding: 6px 10px; border-radius: 8px; background: var(--ink); color: var(--gold); font: 800 clamp(14px, 1.8vw, 20px)/1 var(--f-display); }
+@keyframes crate { 0%, 100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-14px) rotate(-4deg); } }
+
+/* ---------- offer on paper + photo collage ---------- */
+.offer { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 56px; align-items: start; }
+.collage { position: sticky; top: 110px; display: grid; grid-template-columns: repeat(6, 1fr); }
+.c1 { grid-column: 1 / 6; grid-row: 1; aspect-ratio: 4 / 4.8; border-radius: var(--r-lg); }
+.c2 { grid-column: 3 / 7; grid-row: 2; margin-top: -36%; aspect-ratio: 4 / 4.4; border-radius: var(--r); border: 6px solid var(--paper); box-shadow: 0 30px 60px -30px rgba(11, 18, 48, 0.5); }
+.cTag {
+  position: relative; z-index: 2;
+  grid-column: 1 / 6; grid-row: 2; align-self: end; justify-self: start; margin-bottom: -18px;
+  padding: 10px 14px; border-radius: 999px;
+  background: var(--ink); color: var(--gold); font-size: 13px; font-weight: 800;
+}
+
+/* ---------- quote ---------- */
+.quote { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 60px; align-items: start; }
+.quoteCopy { display: grid; gap: 24px; justify-items: start; position: sticky; top: 110px; }
+.quotePhoto { width: 100%; aspect-ratio: 16 / 10; margin-top: 8px; border-radius: var(--r-lg); border: 1px solid var(--line); }
+
+@media (max-width: 960px) {
+  .offer, .quote { grid-template-columns: 1fr; gap: 44px; }
+  .collage, .quoteCopy { position: static; }
+  .collage { max-width: 560px; }
+}
+@media (max-width: 560px) {
+  .nodes { width: 88%; padding-left: 24px; }
+  .node { padding: 12px 14px; gap: 10px; }
+  .node b { font-size: 15px; }
+  .node small { font-size: 12px; }
+  .nodeIc { width: 40px; height: 40px; }
+  .crate { width: 21%; right: 0; bottom: -4%; }
+}

@@ -1,0 +1,38 @@
+.shadow { filter: drop-shadow(0 16px 24px rgba(12, 26, 59, 0.22)); }
+
+.receipt {
+  --z: 8px;
+  padding: 18px 18px calc(16px + var(--z));
+  background: var(--card); color: var(--ink);
+  border-radius: 6px 6px 0 0;
+  font: 400 12.5px/1.4 var(--f-mono);
+  /* torn zig-zag bottom edge */
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--z) * 2) 100%;
+          mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(var(--z) * 2) 100%;
+}
+
+.head { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px dashed var(--line-2); }
+.head img { width: 28px; height: auto; }
+.head span { color: var(--ink-2); font-size: 11.5px; }
+.head b { display: block; color: var(--ink); font-weight: 500; font-size: 12.5px; }
+
+.ok {
+  display: inline-flex; align-items: center; gap: 6px; margin: 12px 0 4px;
+  padding: 5px 9px; border-radius: 999px;
+  background: var(--green); color: #fff; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+/* dotted leaders: dots on the row, label + value sit on card-coloured chips */
+.rows { margin: 8px 0 0; display: grid; gap: 6px; }
+.rows div {
+  display: flex; justify-content: space-between; align-items: baseline;
+  background: radial-gradient(circle, var(--line-2) 1px, transparent 1.3px) 0 72% / 6px 6px repeat-x;
+}
+.rows dt { padding-right: 6px; background: var(--card); color: var(--ink-2); }
+.rows dd { margin: 0; padding-left: 6px; background: var(--card); font-weight: 500; }
+
+.total { margin-top: 14px; padding: 12px; border-radius: 6px; background: var(--orange); color: var(--ink); }
+.total span { display: block; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; }
+.total b { display: block; margin-top: 4px; font: 800 clamp(28px, 3vw, 36px)/1 var(--f-display); letter-spacing: -0.04em; }
+
+.thanks { margin-top: 12px; text-align: center; color: var(--ink-3); font-size: 11px; }

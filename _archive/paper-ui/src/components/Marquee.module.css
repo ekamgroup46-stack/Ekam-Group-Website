@@ -1,0 +1,16 @@
+.band { position: relative; overflow: hidden; background: var(--ink); color: var(--paper); }
+.accent { background: var(--accent); color: var(--on-accent); }
+
+.track { display: flex; width: max-content; animation: run var(--speed) linear infinite; will-change: transform; }
+.band:hover .track { animation-play-state: paused; }
+
+.item {
+  display: inline-flex; align-items: center; gap: 26px; padding: 17px 26px 17px 0;
+  font: 700 clamp(19px, 2vw, 26px)/1 var(--f-display); letter-spacing: -0.02em; white-space: nowrap;
+}
+.sep { font-size: 0.8em; color: var(--butter); }
+.accent .sep { color: inherit; opacity: 0.6; }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@keyframes run { to { transform: translate3d(-50%, 0, 0); } }
