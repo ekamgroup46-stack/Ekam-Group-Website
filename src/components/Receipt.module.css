@@ -2,14 +2,14 @@
 
 .chips { position: absolute; z-index: 2; left: -18px; top: 0; display: flex; gap: 8px; rotate: -6deg; }
 .chips span {
-  padding: 10px 16px; border-radius: 999px;
-  font-size: 13px; font-weight: 800;
-  background: var(--bg-3); color: var(--text); border: 1px solid var(--line-2);
+  height: 40px; padding: 0 14px; border-radius: 999px;
+  display: grid; place-items: center;
+  background: #fff;
   box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.6);
   animation: bob 3.2s ease-in-out infinite;
   animation-delay: calc(var(--i) * 0.4s);
 }
-.chips span:nth-child(2) { background: var(--lime); color: var(--ink); border-color: transparent; }
+.chips img { height: 20px; width: auto; }
 @keyframes bob { 50% { transform: translateY(-8px); } }
 
 /* shadow lives on its own wrapper so the bobbing chips never re-run the filter */

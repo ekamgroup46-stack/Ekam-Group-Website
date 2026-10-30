@@ -1,8 +1,8 @@
 import { Check } from "lucide-react";
-import { NETWORKS, RATE_FROM, inr } from "../data/business.js";
+import { NETWORK_LOGOS, RATE_FROM, inr } from "../data/business.js";
 import s from "./Receipt.module.css";
 
-/** Payment receipt used as the Card Cash hero visual. Illustrative numbers. */
+/** Payment receipt (illustrative numbers) — the last scene of the Card Cash flow. */
 export default function Receipt({ amount = 50000 }) {
   const fee = (amount * RATE_FROM) / 100;
   const rows = [
@@ -15,7 +15,9 @@ export default function Receipt({ amount = 50000 }) {
   return (
     <div className={s.wrap} aria-hidden="true">
       <div className={s.chips}>
-        {NETWORKS.map((n, i) => <span key={n} style={{ "--i": i }}>{n}</span>)}
+        {NETWORK_LOGOS.map((n, i) => (
+          <span key={n.name} style={{ "--i": i }}><img src={`/logos/${n.logo}.png`} alt="" height="20" /></span>
+        ))}
       </div>
       <div className={s.shadow}>
         <div className={s.receipt}>

@@ -1,0 +1,33 @@
+/* the clip gives a tilted band room to rotate without widening the page */
+.clip { position: relative; z-index: 2; overflow: hidden; padding-block: 40px; margin-block: -40px; }
+.band {
+  margin-inline: -4vw;
+  display: flex; align-items: center;
+  transform: rotate(var(--tilt));
+  background: var(--lime); color: var(--ink);
+  border-block: 1px solid rgba(0, 0, 0, 0.1);
+}
+.label {
+  flex: none; position: relative; z-index: 1;
+  padding: 0 22px 0 calc(4vw + 24px); align-self: stretch;
+  display: flex; align-items: center;
+  background: var(--lime);
+  font: 800 12px/1.2 var(--f-body); letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap;
+  box-shadow: 18px 0 18px -6px var(--lime);
+}
+.viewport { flex: 1; min-width: 0; overflow: hidden; }
+.track { display: flex; gap: 12px; width: max-content; padding: 14px 0; animation: run var(--speed) linear infinite; will-change: transform; }
+.band:hover .track { animation-play-state: paused; }
+.chip {
+  flex: none; height: 58px; padding: 0 22px; border-radius: 16px;
+  display: grid; place-items: center;
+  background: #fff; box-shadow: 0 6px 18px -10px rgba(6, 9, 20, 0.5);
+}
+.chip img { height: 28px; width: auto; }
+@keyframes run { to { transform: translate3d(calc(-50% - 6px), 0, 0); } }
+
+@media (max-width: 640px) {
+  .label { display: none; }
+  .chip { height: 50px; padding: 0 16px; border-radius: 14px; }
+  .chip img { height: 24px; }
+}

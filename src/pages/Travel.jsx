@@ -3,6 +3,7 @@ import { theme, waLink } from "../data/business.js";
 import PageHero from "../components/PageHero.jsx";
 import Reveal from "../components/Reveal.jsx";
 import Photo from "../components/Photo.jsx";
+import BrandIcon from "../components/BrandIcon.jsx";
 import EnquiryForm from "../components/EnquiryForm.jsx";
 import FeatureGrid from "../components/FeatureGrid.jsx";
 import Steps from "../components/Steps.jsx";
@@ -26,6 +27,13 @@ const ROUTES = [
   ["HYD", "DXB", "Hyderabad", "Dubai"],
   ["MAA", "SIN", "Chennai", "Singapore"],
   ["DEL", "LHR", "New Delhi", "London"],
+];
+
+const AIRLINES = [
+  ["indigo", "IndiGo"],
+  ["airindia", "Air India"],
+  ["akasa", "Akasa Air"],
+  ["emirates", "Emirates"],
 ];
 
 const STEPS = [
@@ -151,6 +159,18 @@ export default function Travel() {
         stats={[["Domestic", "+ international"], ["Groups", "& corporate"], ["1", "point of contact"]]}
         visual={<FlightArt />}
       />
+
+      <section className={s.airlines} aria-label="Airlines we book">
+        <div className={`wrap ${s.airInner}`}>
+          <span className={s.airLabel}>Airlines we book</span>
+          <ul className={s.airList}>
+            {AIRLINES.map(([icon, name]) => (
+              <li key={icon}><BrandIcon name={icon} size={26} color="currentColor" /> {name}</li>
+            ))}
+            <li className={s.airMore}>+ all major carriers</li>
+          </ul>
+        </div>
+      </section>
 
       <section className="section" id="book">
         <div className={`wrap ${s.book}`}>

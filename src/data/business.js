@@ -19,6 +19,22 @@ export const inr = (n) => "₹" + Math.round(n).toLocaleString("en-IN");
 export const BANKS = ["SBI Card", "HDFC Bank", "ICICI Bank", "Axis Bank", "YES BANK", "Kotak", "IndusInd", "+ more"];
 export const NETWORKS = ["RuPay", "Mastercard", "Visa"];
 
+// Official marks in /public/logos — shown only to say which cards work (see the footer disclaimer).
+export const NETWORK_LOGOS = [
+  { name: "RuPay", logo: "rupay" },
+  { name: "Mastercard", logo: "mastercard" },
+  { name: "Visa", logo: "visa" },
+];
+export const BANK_LOGOS = [
+  { name: "SBI Card", logo: "sbi" },
+  { name: "HDFC Bank", logo: "hdfc" },
+  { name: "ICICI Bank", logo: "icici" },
+  { name: "Axis Bank", logo: "axis" },
+  { name: "YES BANK", logo: "yes" },
+  { name: "Kotak", logo: "kotak" },
+  { name: "IndusInd Bank", logo: "indusind" },
+];
+
 // One entry per business — drives the nav, home page, footer and page colours.
 export const VERTICALS = [
   {
@@ -50,9 +66,9 @@ export const VERTICALS = [
   {
     slug: "trading",
     index: "03",
-    nav: "AQA Trading",
-    name: "AQA Trading",
-    long: "AQA Trading",
+    nav: "Aqua Trading",
+    name: "Aqua Trading",
+    long: "Aqua Trading",
     tag: "B2B",
     tagline: "Sourcing & bulk supply",
     blurb: "Sourcing and bulk supply with honest pricing and on-time delivery.",

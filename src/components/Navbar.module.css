@@ -5,6 +5,15 @@
 }
 .hasBar.scrolled { transform: translateY(-40px); } /* bar slides away, pill stays */
 
+/* soft fade behind the pill once you scroll, so page content never shows above or beside it */
+.header::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: calc(100% + 26px);
+  background: linear-gradient(180deg, rgba(6, 9, 20, 0.92), rgba(6, 9, 20, 0.72) 62%, rgba(6, 9, 20, 0));
+  opacity: 0; transition: opacity 0.4s;
+}
+.scrolled::before { opacity: 1; }
+.menuOpen::before { opacity: 0; }
+
 /* ---------- announcement bar ---------- */
 .bar {
   pointer-events: auto;
@@ -51,7 +60,8 @@
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 8px 24px -8px rgba(77, 168, 255, 0.55);
 }
 .logo img { width: 31px; height: auto; }
-.word { font: 800 19px/1 var(--f-display); letter-spacing: -0.04em; }
+.word { font: 800 19px/1 var(--f-display); letter-spacing: -0.04em; white-space: nowrap; }
+.word span { font-weight: 500; color: rgba(242, 244, 255, 0.82); }
 .word b { color: var(--orange); }
 
 .links { display: flex; align-items: center; gap: 2px; margin-left: auto; }
@@ -120,6 +130,11 @@
 .sheetActive b { color: var(--c); }
 .sheetCtas { display: grid; grid-template-columns: 1fr 1.4fr; gap: 10px; }
 
+@media (max-width: 1320px) {
+  .inner { gap: 14px; }
+  .link { padding: 10px 10px; font-size: 14px; }
+  .cta { padding: 0 16px; }
+}
 @media (max-width: 1080px) {
   .links, .cta { display: none; }
   .burger { display: flex; }

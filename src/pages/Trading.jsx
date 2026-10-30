@@ -57,7 +57,7 @@ function SupplyArt() {
           </div>
         ))}
       </div>
-      <div className={s.crate}><span>AQA</span></div>
+      <div className={s.crate}><span>AQUA</span></div>
     </div>
   );
 }
@@ -66,12 +66,12 @@ export default function Trading() {
   return (
     <div style={theme("trading")}>
       <PageHero
-        eyebrow="AQA Trading · Sourcing & supply"
+        eyebrow="Aqua Trading · Sourcing & supply"
         title={<>Need it?<br />We <span className="accent">source it.</span></>}
-        lead="AQA Trading handles sourcing and bulk supply for businesses and projects, with honest pricing, quality checks and on-time delivery."
+        lead="Aqua Trading handles sourcing and bulk supply for businesses and projects, with honest pricing, quality checks and on-time delivery."
         actions={<>
           <a href="#quote" className="btn btn--primary">Request a quote <ArrowDown className="ic-down" /></a>
-          <a href={waLink("Hi AQA Trading, I have a sourcing requirement.")} target="_blank" rel="noreferrer" className="btn btn--ghost">WhatsApp us</a>
+          <a href={waLink("Hi Aqua Trading, I have a sourcing requirement.")} target="_blank" rel="noreferrer" className="btn btn--ghost">WhatsApp us</a>
         </>}
         trust={["Clear quotes", "Checked before dispatch"]}
         stats={[["B2B", "& bulk orders"], ["QC", "before dispatch"], ["1", "point of contact"]]}
@@ -108,11 +108,11 @@ export default function Trading() {
             <p className="lead">The more detail you share, the sharper the quote. Your enquiry opens in WhatsApp, ready to send.</p>
             <Photo name="trade-aisle" alt="Warehouse aisle with fully stocked shelves" className={s.quotePhoto} sizes="(max-width: 960px) 100vw, 40vw" position="50% 40%" />
           </Reveal>
-          <Reveal delay={100}><EnquiryForm subject="AQA Trading" title="Your requirement" fields={FIELDS} cta="Send requirement" /></Reveal>
+          <Reveal delay={100}><EnquiryForm subject="Aqua Trading" title="Your requirement" fields={FIELDS} cta="Send requirement" /></Reveal>
         </div>
       </section>
 
-      <CTABand title="Have a big order coming up?" text="Let's talk volumes, timelines and pricing." message="Hi AQA Trading, I'd like to discuss a bulk order." />
+      <CTABand title="Have a big order coming up?" text="Let's talk volumes, timelines and pricing." message="Hi Aqua Trading, I'd like to discuss a bulk order." />
     </div>
   );
 }

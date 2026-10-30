@@ -1,10 +1,10 @@
 import { ArrowDown, BadgePercent, Zap, Landmark, ShieldCheck, FileCheck2, Headphones } from "lucide-react";
-import { BANKS, CONTACT, NETWORKS, theme, waLink } from "../data/business.js";
+import { BANK_LOGOS, CONTACT, NETWORK_LOGOS, theme, waLink } from "../data/business.js";
 import PageHero from "../components/PageHero.jsx";
 import Reveal from "../components/Reveal.jsx";
 import Photo from "../components/Photo.jsx";
-import Marquee from "../components/Marquee.jsx";
-import Receipt from "../components/Receipt.jsx";
+import LogoStrip from "../components/LogoStrip.jsx";
+import CashFlow from "../components/CashFlow.jsx";
 import CashCalculator from "../components/CashCalculator.jsx";
 import Steps from "../components/Steps.jsx";
 import FeatureGrid from "../components/FeatureGrid.jsx";
@@ -48,10 +48,10 @@ export default function CardCash() {
         </>}
         trust={["Charges confirmed upfront", "Never asks for PIN or OTP"]}
         stats={[["1.6%", "charges from*"], ["3", "networks"], ["5+", "major banks"]]}
-        visual={<Receipt />}
+        visual={<CashFlow />}
       />
 
-      <Marquee items={BANKS} tilt={1.5} light />
+      <LogoStrip items={[...NETWORK_LOGOS, ...BANK_LOGOS]} label="Cards we take" tilt={1.5} />
 
       <section className="section" id="charges">
         <div className="wrap">
@@ -73,7 +73,7 @@ export default function CardCash() {
             </div>
             <div className={s.networks}>
               <p className="lead">Eligibility depends on your issuing bank — send us your card and bank and we'll confirm first.</p>
-              <div>{NETWORKS.map((n) => <span key={n}>{n}</span>)}</div>
+              <div>{NETWORK_LOGOS.map((n) => <span key={n.name}><img src={`/logos/${n.logo}.png`} alt={n.name} height="22" /></span>)}</div>
             </div>
           </Reveal>
 
@@ -82,9 +82,12 @@ export default function CardCash() {
               <Photo name="card-counter" alt="Customer paying with a phone at a shop counter" sizes="(max-width: 900px) 100vw, 40vw" position="30% 50%" />
             </Reveal>
             <div className={s.banks}>
-              {BANKS.map((b, i) => (
-                <Reveal key={b} delay={(i % 4) * 60} className={s.bank}>{b}</Reveal>
+              {BANK_LOGOS.map((b, i) => (
+                <Reveal key={b.name} delay={(i % 4) * 60} className={s.bank}>
+                  <img src={`/logos/${b.logo}.png`} alt={b.name} height="34" loading="lazy" />
+                </Reveal>
               ))}
+              <Reveal delay={180} className={`${s.bank} ${s.more}`}>+ more banks</Reveal>
             </div>
           </div>
         </div>

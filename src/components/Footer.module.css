@@ -14,9 +14,9 @@
   box-shadow: 0 12px 34px -10px rgba(77, 168, 255, 0.55);
 }
 .logo img { width: 42px; height: auto; }
-.brandName { font: 800 22px/1 var(--f-display); letter-spacing: -0.04em; }
+.brandName { font: 800 22px/1 var(--f-display); letter-spacing: -0.04em; white-space: nowrap; }
+.brandName span { font-weight: 500; color: rgba(242, 244, 255, 0.82); }
 .brandName b { color: var(--orange); }
-.brandName small { display: block; margin-top: 5px; font: 700 11px/1 var(--f-body); letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
 
 .ctas { display: flex; flex-wrap: wrap; gap: 10px; }
 .socials { display: flex; gap: 10px; }

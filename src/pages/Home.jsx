@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, ArrowDown, Check, QrCode, CreditCard, BadgePercent, Zap, Landmark, ShieldCheck, FileCheck2, MessageCircle, Instagram } from "lucide-react";
-import { BANKS, CONTACT, NETWORKS, VERTICALS, theme, waLink } from "../data/business.js";
+import { ArrowUpRight, ArrowDown, Check, QrCode, CreditCard, BadgePercent, Zap, Landmark, ShieldCheck, FileCheck2, MessageCircle } from "lucide-react";
+import { BANK_LOGOS, CONTACT, NETWORK_LOGOS, VERTICALS, theme, waLink } from "../data/business.js";
 import Reveal from "../components/Reveal.jsx";
 import Photo from "../components/Photo.jsx";
-import Marquee from "../components/Marquee.jsx";
+import LogoStrip from "../components/LogoStrip.jsx";
+import BrandIcon from "../components/BrandIcon.jsx";
+import QrArt from "../components/QrArt.jsx";
 import CardVisual from "../components/CardVisual.jsx";
 import CashCalculator from "../components/CashCalculator.jsx";
 import FAQ from "../components/FAQ.jsx";
@@ -27,37 +29,6 @@ const FAQS = [
   ["Do you also book flights?", "Yes — domestic and international. Share your route and dates on WhatsApp and we'll send options."],
   ["Will anyone ask for my OTP or PIN?", "Never. Nobody from EKAM Group will ask for your PIN, CVV or OTP. If someone does, it isn't us."],
 ];
-
-/* ---------- decorative QR for the scan demo (not a real code) ---------- */
-const QR_N = 21;
-const QR_CELLS = (() => {
-  let seed = 7;
-  const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
-  const finder = (x, y) => (x < 8 && y < 8) || (x > QR_N - 9 && y < 8) || (x < 8 && y > QR_N - 9);
-  const out = [];
-  for (let y = 0; y < QR_N; y++) for (let x = 0; x < QR_N; x++) if (!finder(x, y) && rnd() > 0.5) out.push([x, y]);
-  return out;
-})();
-
-function QrArt() {
-  const finder = (x, y) => (
-    <g key={`f${x}-${y}`}>
-      <rect x={x} y={y} width="7" height="7" />
-      <rect x={x + 1} y={y + 1} width="5" height="5" fill="#fff" />
-      <rect x={x + 2} y={y + 2} width="3" height="3" />
-    </g>
-  );
-  return (
-    <svg viewBox={`0 0 ${QR_N} ${QR_N}`} shapeRendering="crispEdges" aria-hidden="true">
-      <g fill="#060914">
-        {QR_CELLS.map(([x, y]) => <rect key={`${x}-${y}`} x={x} y={y} width="1" height="1" />)}
-        {finder(0, 0)}
-        {finder(QR_N - 7, 0)}
-        {finder(0, QR_N - 7)}
-      </g>
-    </svg>
-  );
-}
 
 function Rotator() {
   const [i, setI] = useState(0);
@@ -121,90 +92,99 @@ function InstantDemo() {
   );
 }
 
+/** The four businesses as photo panels — one row on desktop; the hovered / focused one opens up. */
+function BusinessPanels() {
+  return (
+    <div className={s.panels}>
+      {VERTICALS.map((v, i) => (
+        <div key={v.slug} className={`${s.panelWrap} ${s.rise}`} style={{ "--c": `var(--${v.color})`, "--d": i + 3 }}>
+          <Link to={`/${v.slug}`} className={s.panel}>
+            <Photo name={v.image} alt="" priority className={s.pPhoto} sizes="(max-width: 1080px) 50vw, 720px" />
+            <span className={s.pShade} aria-hidden="true" />
+            <span className={s.pNum} aria-hidden="true">{v.index}</span>
+            <span className={s.pIcon} aria-hidden="true"><v.icon size={28} strokeWidth={1.7} /></span>
+            <span className={s.pVert} aria-hidden="true">{v.name}</span>
+            <div className={s.pBody}>
+              <span className={s.pTag}>{v.tag}</span>
+              <h3>
+                <span className={s.long}>{v.long}</span>
+                <span className={s.short}>{v.name}</span>
+              </h3>
+              <p className={s.pBlurb}>{v.blurb}</p>
+              <p className={s.pTagline}>{v.tagline}</p>
+              <span className={s.pGo}>Open page <ArrowUpRight size={18} /></span>
+            </div>
+          </Link>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <div style={theme("card-cash")}>
-      {/* ---------- HERO ---------- */}
-      <section className={s.hero}>
+      {/* ---------- TOP: the four businesses, first thing on the page ---------- */}
+      <section className={s.top} id="businesses">
         <div className="aurora" aria-hidden="true"><i /><i /><i /></div>
         <div className="gridlines" aria-hidden="true" />
+        <div className="wrap">
+          <div className={s.topHead}>
+            <div className={s.topTitle}>
+              <span className={`pill ${s.rise}`} style={{ "--d": 0 }}>
+                <span className="live-dot" /> EKAM Groups · four businesses, one crew
+              </span>
+              <h1 className={`${s.topH1} ${s.rise}`} style={{ "--d": 1 }}>
+                Four businesses.<br /><span className="grad">One number to call.</span>
+              </h1>
+            </div>
+            <div className={`${s.topSide} ${s.rise}`} style={{ "--d": 2 }}>
+              <p className="lead">Each business has its own team and its own page. Pick one to dive in.</p>
+              <a href={waLink("Hi EKAM Group, I'm not sure which service I need. Can you help?")} target="_blank" rel="noreferrer" className={s.topAsk}>
+                <BrandIcon name="whatsapp" size={18} /> Not sure which one? Ask us <ArrowUpRight size={16} />
+              </a>
+            </div>
+          </div>
+          <BusinessPanels />
+        </div>
+      </section>
 
-        <div className={`wrap ${s.heroGrid}`}>
-          <div className={s.heroCopy}>
-            <span className={`pill ${s.rise}`} style={{ "--d": 0 }}>
-              <span className="live-dot" /> Card cash from 1.6% · RuPay · Mastercard · Visa
-            </span>
+      <LogoStrip items={[...NETWORK_LOGOS, ...BANK_LOGOS]} label="Cards we take" tilt={-2} />
 
-            <h1 className={s.h1}>
+      {/* ---------- ONE GROUP. ENDLESS ___ ---------- */}
+      <section className={`section ${s.spot}`}>
+        <span className={s.spotGlow} aria-hidden="true" />
+        <div className={`wrap ${s.spotGrid}`}>
+          <Reveal className={s.spotCopy}>
+            <span className="pill"><span className="live-dot" /> Card cash from 1.6% · RuPay · Mastercard · Visa</span>
+            <h2 className={s.big}>
               <span className="sr-only">One group. Endless cash, flights, trade and builds.</span>
               <span aria-hidden="true">
-                <span className={s.lineMask}><span className={s.line} style={{ "--d": 1 }}>One group.</span></span>
-                <span className={s.lineMask}><span className={s.line} style={{ "--d": 2 }}>Endless</span></span>
-                <span className={s.lineMask}><span className={s.line} style={{ "--d": 3 }}><Rotator /></span></span>
+                <span className={s.lineMask}><span className={s.line} style={{ "--d": 0 }}>One group.</span></span>
+                <span className={s.lineMask}><span className={s.line} style={{ "--d": 1 }}>Endless</span></span>
+                <span className={s.lineMask}><span className={s.line} style={{ "--d": 2 }}><Rotator /></span></span>
               </span>
-            </h1>
-
-            <p className={`lead ${s.rise}`} style={{ "--d": 4 }}>
-              Credit card cash in minutes, flights booked by real people, AQA Trading and building infrastructure —
-              four businesses, one name you can call.
+            </h2>
+            <p className="lead">
+              Card cash from 1.6% in minutes, flights booked by real people, sourcing that shows up on time and builds
+              done right — one crew behind all of it.
             </p>
-
-            <div className={`${s.heroActions} ${s.rise}`} style={{ "--d": 5 }}>
+            <div className={s.actions}>
               <Link to="/card-cash" className="btn btn--primary">Get card cash <ArrowUpRight /></Link>
-              <a href="#businesses" className="btn btn--ghost">Explore EKAM <ArrowDown className="ic-down" /></a>
+              <a href="#charges" className="btn btn--ghost">Check charges <ArrowDown className="ic-down" /></a>
             </div>
-
-            <ul className={`${s.trust} ${s.rise}`} style={{ "--d": 6 }}>
+            <ul className={s.trust}>
               <li><Check strokeWidth={3} /> Charges shown upfront</li>
               <li><Check strokeWidth={3} /> Never asks for PIN or OTP</li>
               <li><Check strokeWidth={3} /> Real humans on WhatsApp</li>
             </ul>
-          </div>
-
-          <div className={s.heroArt}><CardVisual /></div>
-        </div>
-
-        <div className={`wrap ${s.heroFoot}`}>
-          {STATS.map(([k, v], i) => (
-            <div key={v} className={s.rise} style={{ "--d": 7 + i }}>
-              <b>{k}</b><span>{v}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <Marquee items={[...NETWORKS, ...BANKS]} tilt={-2} />
-
-      {/* ---------- BUSINESSES ---------- */}
-      <section className="section" id="businesses">
-        <div className="wrap">
-          <Reveal className="head head--split">
-            <div className="stack">
-              <span className="eyebrow">What we do</span>
-              <h2 className="h-lg">Four businesses.<br /><span className="grad">One number to call.</span></h2>
-            </div>
-            <p className="lead">Each business has its own team and its own page. Pick one to dive in.</p>
           </Reveal>
-
-          <div className={s.panels}>
-            {VERTICALS.map((v, i) => (
-              <Reveal key={v.slug} delay={i * 80} className={s.panelWrap}>
-                <Link to={`/${v.slug}`} className={s.panel} style={{ "--c": `var(--${v.color})` }}>
-                  <Photo name={v.image} alt="" className={s.pPhoto} sizes="(max-width: 1080px) 100vw, 46vw" />
-                  <span className={s.pShade} aria-hidden="true" />
-                  <span className={s.pNum}>{v.index}</span>
-                  <span className={s.pIcon}><v.icon size={28} strokeWidth={1.7} /></span>
-                  <span className={s.pVert} aria-hidden="true">{v.name}</span>
-                  <div className={s.pBody}>
-                    <span className={s.pTag}>{v.tag}</span>
-                    <h3>{v.long}</h3>
-                    <p>{v.blurb}</p>
-                    <span className={s.pGo}>Open page <ArrowUpRight size={18} /></span>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={150} className={s.spotArt}><CardVisual /></Reveal>
+        </div>
+        <div className={`wrap ${s.spotStats}`}>
+          {STATS.map(([k, v], i) => (
+            <Reveal key={v} delay={i * 80}><b>{k}</b><span>{v}</span></Reveal>
+          ))}
         </div>
       </section>
 
@@ -274,8 +254,11 @@ export default function Home() {
               <span className={s.tIc} style={{ "--ic": "var(--green-d)" }}><Landmark size={24} /></span>
               <h3>Wide bank support</h3>
               <p>Eligible credit cards from India's major banks.</p>
-              <ul className={s.bankChips}>
-                {BANKS.map((b) => <li key={b}>{b}</li>)}
+              <ul className={s.bankLogos}>
+                {BANK_LOGOS.map((b) => (
+                  <li key={b.name}><img src={`/logos/${b.logo}.png`} alt={b.name} height="22" loading="lazy" /></li>
+                ))}
+                <li className={s.bankMore}>+ more</li>
               </ul>
             </Reveal>
 
@@ -296,8 +279,8 @@ export default function Home() {
               <h3>Real humans</h3>
               <p>No bots, no ticket numbers. Message us and a person replies.</p>
               <div className={s.tBtns}>
-                <a href={waLink()} target="_blank" rel="noreferrer" className="btn btn--dark">WhatsApp <ArrowUpRight /></a>
-                <a href={CONTACT.instagram} target="_blank" rel="noreferrer" className={s.igBtn} aria-label="EKAM on Instagram"><Instagram size={20} /></a>
+                <a href={waLink()} target="_blank" rel="noreferrer" className="btn btn--dark"><BrandIcon name="whatsapp" size={18} color="#25D366" /> WhatsApp</a>
+                <a href={CONTACT.instagram} target="_blank" rel="noreferrer" className={s.igBtn} aria-label="EKAM on Instagram"><BrandIcon name="instagram" size={20} color="currentColor" /></a>
               </div>
             </Reveal>
           </div>

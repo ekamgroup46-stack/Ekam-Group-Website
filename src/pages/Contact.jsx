@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Phone, MessageCircle, Mail, Instagram } from "lucide-react";
+import { ArrowUpRight, Phone } from "lucide-react";
+import BrandIcon from "../components/BrandIcon.jsx";
 import { CONTACT, VERTICALS, themeVars, waLink } from "../data/business.js";
 import Reveal from "../components/Reveal.jsx";
 import EnquiryForm from "../components/EnquiryForm.jsx";
@@ -9,10 +10,10 @@ import s from "./Contact.module.css";
 const [emailUser, emailDomain] = CONTACT.email.split("@");
 
 const CHANNELS = [
-  { icon: MessageCircle, label: "WhatsApp", value: "Chat now — fastest", href: waLink(), ext: true, hot: true },
+  { brand: "whatsapp", label: "WhatsApp", value: "Chat now — fastest", href: waLink(), ext: true, hot: true },
   { icon: Phone, label: "Call", value: CONTACT.phoneDisplay, href: `tel:+91${CONTACT.phone}` },
-  { icon: Mail, label: "Email", value: <>{emailUser}@<wbr />{emailDomain}</>, href: `mailto:${CONTACT.email}` },
-  { icon: Instagram, label: "Instagram", value: CONTACT.instagramHandle, href: CONTACT.instagram, ext: true },
+  { brand: "gmail", label: "Email", value: <>{emailUser}@<wbr />{emailDomain}</>, href: `mailto:${CONTACT.email}` },
+  { brand: "instagram", label: "Instagram", value: CONTACT.instagramHandle, href: CONTACT.instagram, ext: true },
 ];
 
 const FIELDS = [
@@ -43,7 +44,7 @@ export default function Contact() {
                 className={`${s.ch} ${c.hot ? s.hot : ""} ${s.rise}`}
                 style={{ "--d": i + 2 }}
               >
-                <span className={s.chIc}><c.icon size={22} /></span>
+                <span className={s.chIc}>{c.brand ? <BrandIcon name={c.brand} size={24} /> : <c.icon size={22} />}</span>
                 <small>{c.label}</small>
                 <b>{c.value}</b>
                 <ArrowUpRight className={s.chGo} size={22} />

@@ -1,0 +1,193 @@
+.flow { display: grid; gap: 18px; }
+
+/* ---------- step buttons with a progress bar for the current scene ---------- */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 5px; border-radius: 999px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line); }
+.steps button {
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 42px; padding: 0 10px; border: 0; border-radius: 999px; background: none;
+  font-size: 13.5px; font-weight: 700; color: var(--muted); white-space: nowrap;
+  transition: color 0.25s, background-color 0.25s;
+}
+.steps button:hover { color: var(--text); }
+.steps button[aria-selected="true"] { background: var(--orange); color: var(--ink); }
+.bar {
+  position: absolute; left: 0; bottom: 0; height: 3px; width: 100%;
+  background: rgba(6, 9, 20, 0.55); transform-origin: left;
+  animation: fill var(--ms) linear both;
+}
+.bar[data-paused] { animation-play-state: paused; }
+@keyframes fill { from { transform: scaleX(0); } }
+
+/* ---------- stage ---------- */
+.stage {
+  position: relative; aspect-ratio: 1 / 1.02; overflow: hidden;
+  border-radius: var(--r-lg); border: 1px solid var(--line-2);
+  background:
+    radial-gradient(60% 55% at 50% 45%, rgba(255, 138, 61, 0.22), transparent 70%),
+    radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1.4px) 0 0 / 20px 20px,
+    var(--bg-2);
+}
+.scene { position: absolute; inset: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .scene { animation: sceneIn 0.5s var(--ease); }
+}
+@keyframes sceneIn { from { opacity: 0; transform: scale(0.97); } }
+
+/* ---------- 1. scan the QR ---------- */
+.standee {
+  position: absolute; left: 8%; top: 12%; width: 44%;
+  padding: 14px; border-radius: 20px; background: #fffdf8; color: var(--ink);
+  box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.7);
+  transform: rotate(-5deg);
+}
+.standeeTop { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; font-size: 11.5px; font-weight: 800; }
+.standeeTop img { width: 22px; height: auto; }
+.standeeQr { aspect-ratio: 1; }
+.standeeQr svg, .cam svg { width: 100%; height: 100%; }
+.standeeLogos { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 10px; }
+.standeeLogos img { height: 14px; width: auto; }
+
+.phone {
+  position: absolute; right: 9%; bottom: 7%; width: 40%; aspect-ratio: 0.52;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 12px; border-radius: 28px;
+  background: #0c1024; border: 5px solid #1d2448;
+  box-shadow: 0 40px 70px -20px rgba(0, 0, 0, 0.85);
+}
+.notch { width: 36%; height: 13px; margin-top: -12px; border-radius: 0 0 10px 10px; background: #1d2448; }
+.cam { position: relative; width: 100%; aspect-ratio: 1; margin-top: 8px; padding: 12%; border-radius: 14px; background: #fff; overflow: hidden; }
+.corners {
+  position: absolute; inset: 6%;
+  background:
+    linear-gradient(var(--green), var(--green)) top left / 18% 3px no-repeat,
+    linear-gradient(var(--green), var(--green)) top left / 3px 18% no-repeat,
+    linear-gradient(var(--green), var(--green)) top right / 18% 3px no-repeat,
+    linear-gradient(var(--green), var(--green)) top right / 3px 18% no-repeat,
+    linear-gradient(var(--green), var(--green)) bottom left / 18% 3px no-repeat,
+    linear-gradient(var(--green), var(--green)) bottom left / 3px 18% no-repeat,
+    linear-gradient(var(--green), var(--green)) bottom right / 18% 3px no-repeat,
+    linear-gradient(var(--green), var(--green)) bottom right / 3px 18% no-repeat;
+}
+.scanLine {
+  position: absolute; inset: 0;
+  background: linear-gradient(var(--green), var(--green)) top / 100% 3px no-repeat;
+  filter: drop-shadow(0 0 6px var(--green));
+  animation: scan 1.1s ease-in-out infinite alternate;
+}
+@keyframes scan { to { transform: translateY(calc(100% - 3px)); } }
+.phoneAmt { font-size: 12px; color: var(--muted); }
+.phoneAmt b { display: block; text-align: center; font: 800 clamp(16px, 2vw, 22px)/1.1 var(--f-display); letter-spacing: -0.04em; color: #f2f4ff; }
+.phoneOk {
+  margin-top: auto; width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 9px; border-radius: 12px; background: var(--green); color: var(--ink);
+  font-size: 12px; font-weight: 800;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .phone { animation: phoneIn 0.8s var(--ease) backwards; }
+  .phoneOk { animation: pop 0.4s var(--ease) 2s backwards; }
+}
+@keyframes phoneIn { from { transform: translate(30%, 18%) rotate(12deg); opacity: 0; } }
+@keyframes pop { from { opacity: 0; transform: scale(0.7); } }
+
+/* ---------- 2. swipe the card ---------- */
+.pos {
+  position: absolute; z-index: 1; left: 50%; bottom: 7%; width: 46%; aspect-ratio: 0.66;
+  transform: translateX(-50%);
+  display: grid; grid-template-rows: auto auto 1fr; gap: 10px;
+  padding: 16px; border-radius: 26px;
+  background: linear-gradient(180deg, #1d2448, #0c1024);
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.85);
+}
+.posScreen {
+  position: relative; height: 54px; border-radius: 12px; overflow: hidden;
+  background: #0a1a12; color: var(--green);
+  font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.posWait, .posOk { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.posOk { background: var(--green); color: var(--ink); opacity: 0; }
+.posAmt { text-align: center; font: 800 clamp(18px, 2.2vw, 26px)/1 var(--f-display); letter-spacing: -0.04em; }
+.posKeys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.posKeys i { border-radius: 8px; background: rgba(255, 255, 255, 0.08); }
+.slot { position: absolute; left: 10%; right: 10%; top: -4px; height: 8px; border-radius: 4px; background: #05070f; }
+
+/* the card sits behind the terminal, so its lower edge looks like it runs through the slot */
+.card {
+  position: absolute; z-index: 0; left: 50%; top: -3%; width: 58%; aspect-ratio: 1.586;
+  margin-left: -29%;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 4% 5%; border-radius: 16px; color: #fff;
+  background:
+    radial-gradient(90% 120% at 100% 0%, rgba(77, 168, 255, 0.85), transparent 55%),
+    linear-gradient(135deg, #142057, #070b1f);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 26px 50px -16px rgba(0, 0, 0, 0.8);
+}
+.cardBrand { font: 800 clamp(13px, 1.5vw, 17px)/1 var(--f-display); }
+.cardChip { width: 16%; aspect-ratio: 1.3; border-radius: 5px; background: linear-gradient(135deg, #ffe39a, #c89338); }
+.cardNum { font-size: clamp(11px, 1.2vw, 14px); font-weight: 600; letter-spacing: 0.14em; }
+.cardNet { position: absolute; right: 5%; bottom: 7%; height: 26px; width: auto; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .card { animation: swipe 1.9s var(--ease) 0.3s both; }
+  .posOk { animation: show 0.35s ease 2s forwards; }
+}
+@keyframes swipe {
+  0% { transform: translate(-125%, -20%) rotate(-6deg); opacity: 0; }
+  18% { transform: translate(-70%, 0) rotate(-2deg); opacity: 1; }
+  72% { transform: translate(70%, 0) rotate(1deg); opacity: 1; }
+  100% { transform: translate(135%, -16%) rotate(6deg); opacity: 0; }
+}
+@keyframes show { to { opacity: 1; } }
+
+/* ---------- 3. cash lands ---------- */
+.receipt { position: absolute; left: 50%; top: 20%; width: 340px; margin-left: -170px; scale: 0.84; transform-origin: top center; }
+.sms {
+  position: absolute; z-index: 2; right: 5%; top: 5%;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px 10px 10px; border-radius: 16px;
+  background: rgba(255, 255, 255, 0.97); color: var(--ink);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+}
+.sms b { display: block; font-size: 14px; line-height: 1.2; }
+.sms small { font-size: 11.5px; color: #5b627d; }
+.smsIc { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: var(--green); font: 800 17px/1 var(--f-display); }
+
+.note {
+  position: absolute; z-index: 1; bottom: -14%;
+  left: calc(8% + var(--i) * 15%);
+  width: 46px; height: 26px; border-radius: 5px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #5be39b, #1f9a55); color: rgba(6, 9, 20, 0.6);
+  font: 800 13px/1 var(--f-display);
+  box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .receipt { animation: print 0.9s var(--ease) backwards; }
+  .sms { animation: smsIn 0.6s var(--ease) 1.4s backwards; }
+  .note { animation: float 2.6s ease-out infinite; animation-delay: calc(1.2s + var(--i) * 0.28s); }
+}
+@keyframes print { from { transform: translateY(-36%); opacity: 0; clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 -20% 0); } }
+@keyframes smsIn { from { opacity: 0; transform: translateY(-24px) scale(0.92); } }
+@keyframes float {
+  0% { opacity: 0; transform: translateY(0) rotate(-10deg); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-420%) rotate(14deg); }
+}
+
+@media (max-width: 560px) {
+  .stage { aspect-ratio: 1 / 1.12; }
+  .receipt { scale: 0.68; top: 22%; }
+  .steps button { font-size: 12.5px; gap: 5px; }
+  .steps button svg { width: 14px; height: 14px; }
+  .standee { padding: 10px; border-radius: 16px; }
+  .phone { border-width: 4px; border-radius: 22px; padding: 9px; }
+  .sms { padding: 8px 10px 8px 8px; }
+  .sms b { font-size: 12.5px; }
+  .sms small { font-size: 10.5px; }
+  .smsIc { width: 28px; height: 28px; }
+  .posScreen { height: 42px; font-size: 11px; }
+  .cardNet { height: 18px; }
+}

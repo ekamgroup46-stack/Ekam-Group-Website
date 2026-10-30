@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ArrowUpRight, Phone, X, Zap } from "lucide-react";
 import { CONTACT, VERTICALS, waLink } from "../data/business.js";
+import BrandIcon from "./BrandIcon.jsx";
 import s from "./Navbar.module.css";
 
 const cx = (...c) => c.filter(Boolean).join(" ");
@@ -69,12 +70,15 @@ export default function Navbar() {
 
         <div className={s.navWrap}>
           <div className={s.inner}>
-            <Link to="/" className={s.brand} aria-label="EKAM Group — home">
+            <Link to="/" className={s.brand} aria-label="EKAM Groups — home">
               <span className={s.logo}><img src="/logo-mark.png" alt="" width="30" height="31" /></span>
-              <span className={s.word}>EKAM<b>.</b></span>
+              <span className={s.word}>EKAM <span>Groups</span><b>.</b></span>
             </Link>
 
             <nav className={s.links} aria-label="Main">
+              <NavLink to="/" end className={({ isActive }) => cx(s.link, isActive && s.active)}>
+                Home
+              </NavLink>
               {VERTICALS.map((v) => (
                 <NavLink
                   key={v.slug}
@@ -133,7 +137,7 @@ export default function Navbar() {
         </nav>
         <div className={s.sheetCtas}>
           <a href={`tel:+91${CONTACT.phone}`} className="btn btn--ghost"><Phone /> Call</a>
-          <a href={waLink()} target="_blank" rel="noreferrer" className="btn btn--light">WhatsApp <ArrowUpRight /></a>
+          <a href={waLink()} target="_blank" rel="noreferrer" className="btn btn--light"><BrandIcon name="whatsapp" size={18} /> WhatsApp</a>
         </div>
       </div>
     </>
